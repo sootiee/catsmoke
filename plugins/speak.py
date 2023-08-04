@@ -11,5 +11,9 @@ class Speak(commands.Cog):
     async def speak(self, ctx):
         await ctx.send('It\'s a dog eat dog world out there...')
 
+    @commands.hybrid_command(name="credits")
+    async def credits(self, ctx):
+        await ctx.send('See code contributors here: https://github.com/sootiee/catsmoke')
+
 async def setup(bot):
     await bot.add_cog(Speak(bot))
