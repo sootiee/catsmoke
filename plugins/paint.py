@@ -29,8 +29,8 @@ class Paint(commands.Cog):
         with open("db.json", "w") as json_file:
             json.dump(self.parsed, json_file)
     
-    @commands.command()
-    async def set_color(self, ctx, *, flags: ColorFlags):
+    @commands.hybrid_command(name="paint")
+    async def paint(self, ctx, *, flags: ColorFlags):
         if self.is_color(flags.color):
             if len(flags.color) == 4:
                 hex_code = '#{}'.format(''.join(2 * c for c in flags.color.lstrip('#')))
@@ -48,7 +48,7 @@ class Paint(commands.Cog):
                         await ctx.send("Successfully updated user color")
                         return
                     else:
-                        ctx.send("Role does not exist")
+                        await ctx.send("Role does not exist")
                         return
 
             role =  await ctx.guild.create_role(color = int(hex_code[1:], 16), name = hex_code.upper())

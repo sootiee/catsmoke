@@ -6,7 +6,7 @@ import os
 
 
 token = os.environ['TOKEN']
-owner_id = os.environ['OWNER_ID']
+owner_id = os.environ['OWNER']
 prefix = "%%"
 color_regex = r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
 

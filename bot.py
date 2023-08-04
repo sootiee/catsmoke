@@ -23,5 +23,6 @@ async def on_ready():
         await bot.load_extension("plugins.paint")
     except commands.ExtensionError as e:
         print(e)
+    await bot.tree.sync()
     
 bot.run(TOKEN)

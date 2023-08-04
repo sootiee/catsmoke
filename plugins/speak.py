@@ -7,7 +7,7 @@ class Speak(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command(name="speak")
     async def speak(self, ctx):
         await ctx.send('It\'s a dog eat dog world out there...')
 
