@@ -59,3 +59,6 @@ class Paint(commands.Cog):
 
         else:
             await ctx.send("Invalid hex color")
+
+async def setup(bot):
+    await bot.add_cog(Paint(bot))

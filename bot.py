@@ -5,7 +5,7 @@ import os
 # Variable declarations
 PREFIX = "cat "
 TOKEN = os.environ['TOKEN']
-OWNER = os.environ['OWNER_ID']
+OWNER = os.environ['OWNER']
 
 # Set Discord gateway intents
 intents = discord.Intents.default()
@@ -22,6 +22,6 @@ async def on_ready():
         await bot.load_extension("plugins.speak")
         await bot.load_extension("plugins.paint")
     except commands.ExtensionError as e:
-        print(f'Failed to load extension {e.name}')
+        print(e)
     
 bot.run(TOKEN)
