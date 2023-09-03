@@ -31,34 +31,34 @@ class Paint(commands.Cog):
     
     @commands.hybrid_command(name="paint")
     async def paint(self, ctx, *, flags: ColorFlags):
-        if self.is_color(flags.color):
-            if len(flags.color) == 4:
-                hex_code = '#{}'.format(''.join(2 * c for c in flags.color.lstrip('#')))
-            else:
-                hex_code = flags.color
-
-
-            for x in self.parsed["colors"]:
-                if ctx.author.id == x["user_id"] and ctx.guild.id == x["guild_id"]:
-                    role = ctx.guild.get_role(x["role_id"])
-                    if role != None:
-                        await role.edit(color = int(hex_code[1:], 16), name = hex_code.upper())
-                        x["hex"] = hex_code
-                        self.write_json()
-                        await ctx.send("Successfully updated user color")
-                        return
-                    else:
-                        await ctx.send("Role does not exist")
-                        return
-
-            role =  await ctx.guild.create_role(color = int(hex_code[1:], 16), name = hex_code.upper())
-            await ctx.author.add_roles(role)
-            self.parsed["colors"].append({"user_id": ctx.author.id, "hex": hex_code, "role_id": role.id, "guild_id": ctx.guild.id})
-            self.write_json()
-            await ctx.send("Added role color to you")
-
-        else:
+        if not self.is_color(flags.color):
             await ctx.send("Invalid hex color")
+            return 
+        
+        if len(flags.color) == 4:
+            hex_code = '#{}'.format(''.join(2 * c for c in flags.color.lstrip('#')))
+        else:
+            hex_code = flags.color
+
+        for x in self.parsed["colors"]:
+            if ctx.author.id == x["user_id"] and ctx.guild.id == x["guild_id"]:
+                role = ctx.guild.get_role(x["role_id"])
+                
+                if role != None:
+                    await ctx.send("Role does not exist")
+                    return
+                
+                await role.edit(color = int(hex_code[1:], 16), name = hex_code.upper())
+                x["hex"] = hex_code
+                self.write_json()
+                await ctx.send("Successfully updated user color")
+                return
+                    
+        role =  await ctx.guild.create_role(color = int(hex_code[1:], 16), name = hex_code.upper())
+        await ctx.author.add_roles(role)
+        self.parsed["colors"].append({"user_id": ctx.author.id, "hex": hex_code, "role_id": role.id, "guild_id": ctx.guild.id})
+        self.write_json()
+        await ctx.send("Added role color to you")
 
 async def setup(bot):
     await bot.add_cog(Paint(bot))
